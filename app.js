@@ -22,9 +22,10 @@ const app = express();
 // ✅ 未匹配的路由（如 GET /unknown）Express 預設會回 404，不需另外加 middleware
 //
 // ⚠️ **最後不需呼叫 app.listen()** — 這個部分交由 server.js 負責（分離「組裝」跟「啟動」，這樣 test.js 可以 supertest 直接戳 app、不佔 port）。
-
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
-app.use(express.json());
-app.use('/members', membersRouter);
+app.use(cors()); //解垮域
+app.use(express.json()); //解析JSON body
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc)); // 掛載 Swagger UI
+app.use('/members', membersRouter); // 把 membersRouter 掛載到 '/members' 路徑下
+app.use('/uploadImage', uploadImageRouter); //把 uploadImageRouter 掛載到 '/uploadImage' 路徑下
 
 module.exports = app;
